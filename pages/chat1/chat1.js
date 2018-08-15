@@ -21,18 +21,19 @@ Page({
       wx.onSocketOpen(function (res){
         console.log(res)
         let nickName = "kemi"
-        chatFun.send('{"type":"login","client_name":"' + nickName + '","room_id":"1000","content":""}');
+        chatFun.send('{"type":"login","client_name":"' + nickName + '","room_id":"1000","content":"进入房间"}');
       })
       //监听聊天内容函数
       wx.onSocketMessage(function(res){
-        console.log(res);
-        var content = JSON.parse(res.data);
-        console.log("内容：" + content);
+        // console.log(res);
+        var chat = JSON.parse(res.data);
+        console.log(chat);
         
         // console.log(res.data.content)
         var msg = Array()
-        msg.push(content)
+        msg.push(chat.content)
         console.log(msg);
+        
       })
 
   },
