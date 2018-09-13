@@ -17,9 +17,13 @@
             </view>
         </view>
     </scroll-view>
-    <view class="input-panel">
+    <view>
         <button class="pic-icon"></button>
-        <input type="text" value="{{inputContent}}" bindchange="changeInputContent" class="send-input"></input>
-        <button bindtap="sendMessage" class="send-btn">发送</button>
+        <form bindsubmit="onsubmit" class="input-panel">
+          <input  style="display:inline-block;" type="text" value="{{inputContent}}" bindchange="changeInputContent" name="msg" class="send-input"></input>
+          <button style="display:inline-block;"  bindtap="sendMessage" form-type='submit' class="send-btn">发送</button>        
+          <!-- <input style="display:inline-block;" type='submit' value='发送' class="send-btn"></input> -->
+        </form>
+
     </view>
 </view>

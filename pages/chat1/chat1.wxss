@@ -148,9 +148,10 @@
     margin-right: 20rpx;
     box-sizing: border-box;
     padding: 0 10rpx;
+    width: 500rpx;
 }
 .send-btn {
-    width: 160rpx;
+    width: 180rpx;
     height: 72rpx;
     line-height: 72rpx;
     background-color: #a0e75a;

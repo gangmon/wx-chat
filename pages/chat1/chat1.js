@@ -7,7 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-  
+    messages:[],
   },
 
   /**
@@ -25,24 +25,37 @@ Page({
       })
       //监听聊天内容函数
       wx.onSocketMessage(function(res){
-        // console.log(res);
+        console.log(res);
         var chat = JSON.parse(res.data);
         console.log(chat);
+        console.log(chat.content);
+        console.log("在socket-message中")
         
         // console.log(res.data.content)
         var msg = Array()
-        msg.push(chat.content)
+        msg.push(chat.type)
         console.log(msg);
         
       })
 
   },
-
-  sendMessage: function () {
-    var nickName = "kemi";
-    chatFun.send('{"type":"say","client_name":"' + nickName + '","room_id":"1","content":"哈哈","to_client_id":"all"}') 
+  changeInputContent(e){
+    console.log(e)
   },
 
+  sendMessage: function (mesage) {
+    console.log(mesage.msg)
+    console.log("在sendMessage函数中")
+    
+    var mgs = mesage.msg
+    var nickName = "kemi";
+    chatFun.send('{"type":"say","client_name":"' + nickName + '","room_id":"1","content":"'+mgs+'","to_client_id":"all"}') 
+  },
+  onsubmit:function(e){
+      console.log(e);
+      console.log("在onsubmit中")
+      this.sendMessage(e.detail.value);
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
