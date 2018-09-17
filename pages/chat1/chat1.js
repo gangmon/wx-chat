@@ -7,49 +7,76 @@ Page({
    * 页面的初始数据
    */
   data: {
-    messages:[],
+    nickName:null,
+    messages:[
+      
+    ],
+    // lastMessageId:
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var that = this
       wx.connectSocket({
-        url: 'wss://fangkemi.xyz/wss',
+        // url: 'wss://fangkemi.xyz/wss',
+        url: 'ws://127.0.0.1:7272',
         header: { "content-type": 'application/x-www-form-urlencoded' }
       })
       wx.onSocketOpen(function (res){
         console.log(res)
         let nickName = "kemi"
-        chatFun.send('{"type":"login","client_name":"' + nickName + '","room_id":"1000","content":"进入房间"}');
+        chatFun.send('{"type":"login","client_name":"' + nickName + '","room_id":"1000","content":"进入房间","user":""}');
       })
       //监听聊天内容函数
       wx.onSocketMessage(function(res){
+        console.log("监听聊天")
         console.log(res);
-        var chat = JSON.parse(res.data);
-        console.log(chat);
-        console.log(chat.content);
-        console.log("在socket-message中")
+        var message = JSON.parse(res.data);
+        // console.log();
         
-        // console.log(res.data.content)
+        
+        that.data.messages.push(message)
+        that.data.lastMessageId = that.data.messages.length
+        console.log(message.content);
+        console.log(that.data.messages)
+        // console.log("在socket-message中")
+        
+        // console.log(res.data)
         var msg = Array()
-        msg.push(chat.type)
-        console.log(msg);
-        
+        // msg.push(chat.type)
+        // console.log(msg);
       })
 
   },
   changeInputContent(e){
     console.log(e)
   },
+  getUserInfo: function (e){
+      var that = this
+    // console.log(that.data.userInfo)    
+    if (that.data.nickName != null) { return }      
+      console.log("获取用户信息")
+      console.log(e.detail.userInfo)
+      that.setData({
+        avatarUrl: e.detail.userInfo.avatarUrl,
+        nickName: e.detail.userInfo.nickName,
+      })      
+  },
 
   sendMessage: function (mesage) {
-    console.log(mesage.msg)
+    var that = this
+    if (that.data.nickName == null){return}
+    console.log(mesage['msg'])
     console.log("在sendMessage函数中")
+    console.log(mesage)
     
     var mgs = mesage.msg
-    var nickName = "kemi";
-    chatFun.send('{"type":"say","client_name":"' + nickName + '","room_id":"1","content":"'+mgs+'","to_client_id":"all"}') 
+    var nickName = "放了吗";
+    
+    console.log(that.data.nickName)
+    chatFun.send('{"type":"say","client_name":"' + nickName + '","room_id":"1","content":"'+mgs+'","to_client_id":"all","nickName":"'+that.data.nickName+'","avatarUrl":"'+that.data.avatarUrl+'"}') 
   },
   onsubmit:function(e){
       console.log(e);

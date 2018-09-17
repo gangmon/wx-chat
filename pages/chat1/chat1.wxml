@@ -4,11 +4,14 @@
 </view> -->
 <view class="page-wrap">
     <scroll-view class="chat-container" scroll-y scroll-into-view="{{lastMessageId}}" scroll-top="9999999999">
-        <view wx:for="{{messages}}" wx:for-item="message" wx:key="id" id="{{message.id}}" class="message {{message.type}}">
-            <view wx:if="{{message.type == 'speak'}}" class="user-message {{message.isMe ? 'me' : 'other'}}">
-                <image class="avatar" src="{{message.user.avatarUrl}}" mode="aspectFill"></image>
+        <!-- <view wx:for="{{messages}}" wx:for-item="message" wx:key="id" id="{{message.id}}" class="message {{message.type}}"> -->
+        <view wx:for="{{messages}}" wx:for-item="message" wx:key="id"  class="message {{message.type}}">        
+            <!-- <view wx:if="{{message.type == 'say'}}" class="user-message {{message.isMe ? 'me' : 'other'}}"> -->
+            <view wx:if="{{message.type == 'say'}}" >
+            
+                <image class="avatar" src="{{message.avatarUrl}}" mode="aspectFill"></image>
                 <view class="text">
-                    <view class="nickname">{{message.user.nickName}}</view>
+                    <view class="nickname">{{message.nickName}}</view>
                     <view class="content">{{message.content}}</view>
                 </view>
             </view>
@@ -21,7 +24,7 @@
         <button class="pic-icon"></button>
         <form bindsubmit="onsubmit" class="input-panel">
           <input  style="display:inline-block;" type="text" value="{{inputContent}}" bindchange="changeInputContent" name="msg" class="send-input"></input>
-          <button style="display:inline-block;"  bindtap="sendMessage" form-type='submit' class="send-btn">发送</button>        
+          <button open-type="getUserInfo" bindgetuserinfo='getUserInfo' style="display:inline-block;"   form-type='submit' class="send-btn">发送</button>        
           <!-- <input style="display:inline-block;" type='submit' value='发送' class="send-btn"></input> -->
         </form>
 
